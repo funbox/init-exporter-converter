@@ -42,7 +42,7 @@ go get -u github.com/essentialkaos/init-exporter-converter
 ### Usage
 
 ```
-Usage: init-exporter-converter {options} procfile
+Usage: init-exporter-converter {options} procfile...
 
 Options
 
@@ -57,8 +57,9 @@ Examples
   init-exporter-converter -i config/Procfile.production
   Convert Procfile.production to version 2 in-place
 
-  init-exporter-converter config/Procfile.production -c /etc/init-exporter.conf Procfile.production
-  Convert Procfile.production to version 2 with defaults from init-exporter config and print result to console
+  init-exporter-converter config/Procfile.production -c /etc/init-exporter.conf Procfile.*
+  Convert all procfiles to version 2 with defaults from init-exporter config and print result to console
+
 
 ```
 

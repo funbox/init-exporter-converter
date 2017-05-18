@@ -16,6 +16,7 @@ import (
 	"pkg.re/essentialkaos/ek.v9/knf"
 	"pkg.re/essentialkaos/ek.v9/options"
 	"pkg.re/essentialkaos/ek.v9/usage"
+	"pkg.re/essentialkaos/ek.v9/usage/update"
 
 	"pkg.re/essentialkaos/go-simpleyaml.v1"
 
@@ -82,7 +83,7 @@ var optMap = options.Map{
 func main() {
 	runtime.GOMAXPROCS(1)
 
-	args, errs := options.Parse(optMap)
+	files, errs := options.Parse(optMap)
 
 	if len(errs) != 0 {
 		fmtc.Println("Error while options parsing:")
@@ -103,17 +104,18 @@ func main() {
 		return
 	}
 
-	if options.GetB(OPT_HELP) || len(args) == 0 {
+	if options.GetB(OPT_HELP) || len(files) == 0 {
 		showUsage()
 		return
 	}
 
-	process(args[0])
+	process(files)
 }
 
 // process start data processing
-func process(file string) {
+func process(files []string) {
 	var err error
+	var hasErrors bool
 
 	if options.Has(OPT_CONFIG) {
 		err = knf.Global(options.GetS(OPT_CONFIG))
@@ -123,10 +125,17 @@ func process(file string) {
 		}
 	}
 
-	err = convert(file)
+	for _, file := range files {
+		err = convert(file)
 
-	if err != nil {
-		printErrorAndExit(err.Error())
+		if err != nil {
+			hasErrors = true
+			printError(err.Error())
+		}
+	}
+
+	if hasErrors {
+		os.Exit(1)
 	}
 }
 
@@ -152,19 +161,23 @@ func convert(file string) error {
 	}
 
 	if app.ProcVersion != 1 {
-		printErrorAndExit("Given procfile already converted to v2 format")
+		return fmt.Errorf("Given procfile already converted to v2 format")
 	}
 
 	config.WorkingDir, hasCustomWorkingDirs = getWorkingDir(app)
 
-	validateApplication(app)
+	err = validateApplication(app)
+
+	if err != nil {
+		return err
+	}
 
 	yamlData := renderProcfile(&procData{config, app, hasCustomWorkingDirs})
 
 	err = validateYaml(yamlData)
 
 	if err != nil {
-		printErrorAndExit("Can't convert given procfile to YAML: %v", err)
+		return fmt.Errorf("Can't convert given procfile to YAML: %v", err)
 	}
 
 	if !options.GetB(OPT_IN_PLACE) {
@@ -261,20 +274,14 @@ func getWorkingDir(app *procfile.Application) (string, bool) {
 }
 
 // validateApplication validate application and all services
-func validateApplication(app *procfile.Application) {
+func validateApplication(app *procfile.Application) error {
 	errs := app.Validate()
 
 	if len(errs) == 0 {
-		return
+		return nil
 	}
 
-	printError("Errors while application validation:")
-
-	for _, err := range errs {
-		printError("  - %v", err)
-	}
-
-	os.Exit(1)
+	return errs[0]
 }
 
 // validateYaml validate rendered yaml
@@ -309,7 +316,7 @@ func printErrorAndExit(f string, a ...interface{}) {
 
 // showUsage print usage info to console
 func showUsage() {
-	info := usage.NewInfo("", "procfile")
+	info := usage.NewInfo("", "procfile...")
 
 	info.AddOption(OPT_CONFIG, "Path to init-exporter config", "file")
 	info.AddOption(OPT_IN_PLACE, "Edit procfile in place")
@@ -323,8 +330,8 @@ func showUsage() {
 	)
 
 	info.AddExample(
-		"config/Procfile.production -c /etc/init-exporter.conf Procfile.production",
-		"Convert Procfile.production to version 2 with defaults from init-exporter config and print result to console",
+		"config/Procfile.production -c /etc/init-exporter.conf Procfile.*",
+		"Convert all procfiles to version 2 with defaults from init-exporter config and print result to console",
 	)
 
 	info.Render()
@@ -333,12 +340,13 @@ func showUsage() {
 // showAbout print version info to console
 func showAbout() {
 	about := &usage.About{
-		App:     APP,
-		Version: VER,
-		Desc:    DESC,
-		Year:    2006,
-		Owner:   "FB Group",
-		License: "MIT License",
+		App:           APP,
+		Version:       VER,
+		Desc:          DESC,
+		Year:          2006,
+		Owner:         "FB Group",
+		License:       "MIT License",
+		UpdateChecker: usage.UpdateChecker{"funbox/init-exporter-converter", update.GitHubChecker},
 	}
 
 	about.Render()
