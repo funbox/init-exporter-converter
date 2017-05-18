@@ -57,7 +57,7 @@ Examples
   init-exporter-converter -i config/Procfile.production
   Convert Procfile.production to version 2 in-place
 
-  init-exporter-converter config/Procfile.production -c /etc/init-exporter.conf Procfile.*
+  init-exporter-converter -c /etc/init-exporter.conf Procfile.*
   Convert all procfiles to version 2 with defaults from init-exporter config and print result to console
 
 

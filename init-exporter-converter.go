@@ -330,7 +330,7 @@ func showUsage() {
 	)
 
 	info.AddExample(
-		"config/Procfile.production -c /etc/init-exporter.conf Procfile.*",
+		"-c /etc/init-exporter.conf Procfile.*",
 		"Convert all procfiles to version 2 with defaults from init-exporter config and print result to console",
 	)
 
