@@ -1,4 +1,4 @@
-## `init-exporter-converter`
+## `init-exporter-converter` [![Build Status](https://travis-ci.org/funbox/init-exporter.svg?branch=master)](https://travis-ci.org/funbox/init-exporter) [![Go Report Card](https://goreportcard.com/badge/github.com/funbox/init-exporter)](https://goreportcard.com/report/github.com/funbox/init-exporter) [![License](https://gh.kaos.io/mit.svg)](LICENSE)
 
 Utility for converting [`init-exporter`](https://github.com/funbox/init-exporter) procfiles from v1 to v2 format.
 
