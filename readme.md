@@ -31,7 +31,6 @@ go get -u github.com/essentialkaos/init-exporter-converter
 [sudo] yum install init-exporter-converter
 ```
 
-
 #### From ESSENTIAL KAOS Public repo for RHEL7/CentOS7
 
 ```
@@ -59,7 +58,6 @@ Examples
 
   init-exporter-converter -c /etc/init-exporter.conf Procfile.*
   Convert all procfiles to version 2 with defaults from init-exporter config and print result to console
-
 
 ```
 
