@@ -71,3 +71,5 @@ Examples
 ### License
 
 [MIT](LICENSE)
+
+<a href="https://funbox.ru"><img src="https://funbox.ru/badges/sponsored_by_funbox.svg" alt="Sponsored by FunBox" width=250 /></a>
