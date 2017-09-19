@@ -42,7 +42,7 @@
 
 Summary:         Utility for converting init-exporter procfiles from v1 to v2 format
 Name:            init-exporter-converter
-Version:         0.8.0
+Version:         0.9.0
 Release:         0%{?dist}
 Group:           Development/Tools
 License:         MIT
@@ -93,6 +93,9 @@ rm -rf %{buildroot}
 ###############################################################################
 
 %changelog
+* Tue Sep 19 2017 Anton Novojilov <andy@essentialkaos.com> - 0.9.0-0
+- Improved environment variables parsing in v1
+
 * Fri May 19 2017 Anton Novojilov <andyone@fun-box.ru> - 0.8.0-0
 - Migrated to ek.v9
 - Added support of multiple file converting
