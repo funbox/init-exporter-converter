@@ -28,7 +28,7 @@ import (
 // App props
 const (
 	APP  = "init-exporter-converter"
-	VER  = "0.8.0"
+	VER  = "0.9.0"
 	DESC = "Utility for converting procfiles from v1 to v2 format"
 )
 
