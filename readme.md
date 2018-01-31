@@ -72,4 +72,4 @@ Examples
 
 [MIT](LICENSE)
 
-<a href="https://funbox.ru"><img src="https://funbox.ru/badges/sponsored_by_funbox.svg" alt="Sponsored by FunBox" width=250 /></a>
+[![Sponsored by FunBox](https://funbox.ru/badges/sponsored_by_funbox_grayscale.svg)](https://funbox.ru)
