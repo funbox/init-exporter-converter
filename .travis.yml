@@ -1,4 +1,4 @@
-sudo: false
+sudo: required
 
 language: go
 
@@ -16,14 +16,25 @@ branches:
 os:
   - linux
 
+services:
+  - docker
+
+env:
+  global:
+    - IMAGE=essentialkaos/perfecto:centos7
+
 matrix:
   fast_finish: true
   allow_failures:
     - go: tip
 
 before_install:
+  - docker pull "$IMAGE"
+  - wget https://kaos.sh/perfecto/perfecto-docker
+  - chmod +x perfecto-docker
   - make deps
 
 script:
   - make all
   - ./init-exporter-converter --version
+  - ./perfecto-docker common/init-exporter-converter.spec
