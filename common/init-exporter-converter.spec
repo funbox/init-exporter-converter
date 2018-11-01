@@ -42,8 +42,8 @@
 
 Summary:         Utility for converting init-exporter procfiles from v1 to v2 format
 Name:            init-exporter-converter
-Version:         0.9.0
-Release:         1%{?dist}
+Version:         0.9.1
+Release:         0%{?dist}
 Group:           Development/Tools
 License:         MIT
 URL:             https://github.com/funbox/init-exporter-converter
@@ -93,10 +93,13 @@ rm -rf %{buildroot}
 ################################################################################
 
 %changelog
-* Thu Apr 05 2018 Anton Novojilov <andy@essentialkaos.com> - 0.9.0-1
+* Thu Nov 01 2018 Anton Novojilov <andyone@fun-box.ru> - 0.9.1-0
+- Rebuilt with the latest procfile parser
+
+* Thu Apr 05 2018 Anton Novojilov <andyone@fun-box.ru> - 0.9.0-1
 - Rebuilt with Go 1.10
 
-* Tue Sep 19 2017 Anton Novojilov <andy@essentialkaos.com> - 0.9.0-0
+* Tue Sep 19 2017 Anton Novojilov <andyone@fun-box.ru> - 0.9.0-0
 - Improved environment variables parsing in v1
 
 * Fri May 19 2017 Anton Novojilov <andyone@fun-box.ru> - 0.8.0-0
