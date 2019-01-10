@@ -15,13 +15,13 @@ git config --global http.https://pkg.re.followRedirects true
 To build the `init-exporter-converter` from scratch, make sure you have a working Go 1.8+ workspace ([instructions](https://golang.org/doc/install)), then:
 
 ```
-go get github.com/essentialkaos/init-exporter-converter
+go get github.com/funbox/init-exporter-converter
 ```
 
 If you want to update `init-exporter-converter` to latest stable release, do:
 
 ```
-go get -u github.com/essentialkaos/init-exporter-converter
+go get -u github.com/funbox/init-exporter-converter
 ```
 
 #### From ESSENTIAL KAOS Public repo for RHEL6/CentOS6
