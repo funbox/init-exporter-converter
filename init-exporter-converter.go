@@ -12,11 +12,11 @@ import (
 	"os"
 	"runtime"
 
-	"pkg.re/essentialkaos/ek.v9/fmtc"
-	"pkg.re/essentialkaos/ek.v9/knf"
-	"pkg.re/essentialkaos/ek.v9/options"
-	"pkg.re/essentialkaos/ek.v9/usage"
-	"pkg.re/essentialkaos/ek.v9/usage/update"
+	"pkg.re/essentialkaos/ek.v10/fmtc"
+	"pkg.re/essentialkaos/ek.v10/knf"
+	"pkg.re/essentialkaos/ek.v10/options"
+	"pkg.re/essentialkaos/ek.v10/usage"
+	"pkg.re/essentialkaos/ek.v10/usage/update"
 
 	"pkg.re/essentialkaos/go-simpleyaml.v1"
 
@@ -28,7 +28,7 @@ import (
 // App props
 const (
 	APP  = "init-exporter-converter"
-	VER  = "0.9.1"
+	VER  = "0.10.0"
 	DESC = "Utility for converting procfiles from v1 to v2 format"
 )
 
