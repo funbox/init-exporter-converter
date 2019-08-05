@@ -2,7 +2,7 @@ package main
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 //                                                                                    //
-//                       Copyright (c) 2006-2017 FB GROUP LLC                         //
+//                       Copyright (c) 2006-2019 FB GROUP LLC                         //
 //                                                                                    //
 // ////////////////////////////////////////////////////////////////////////////////// //
 
@@ -28,7 +28,7 @@ import (
 // App props
 const (
 	APP  = "init-exporter-converter"
-	VER  = "0.10.0"
+	VER  = "0.10.1"
 	DESC = "Utility for converting procfiles from v1 to v2 format"
 )
 
