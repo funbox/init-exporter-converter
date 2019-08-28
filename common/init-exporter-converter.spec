@@ -42,7 +42,7 @@
 
 Summary:         Utility for converting init-exporter procfiles from v1 to v2 format
 Name:            init-exporter-converter
-Version:         0.10.0
+Version:         0.10.1
 Release:         0%{?dist}
 Group:           Development/Tools
 License:         MIT
@@ -52,7 +52,7 @@ Source0:         %{name}-%{version}.tar.gz
 
 BuildRoot:       %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:   golang >= 1.11
+BuildRequires:   golang >= 1.12
 
 Provides:        %{name} = %{version}-%{release}
 
@@ -93,7 +93,10 @@ rm -rf %{buildroot}
 ################################################################################
 
 %changelog
-* Thu Jan 10 2019 Anton Novojilov <andy@essentialkaos.com> - 0.10.0-0
+* Mon Aug 05 2019 Anton Novojilov <andyone@fun-box.ru> - 0.10.1-0
+- Updated for compatibility with the latest version of ek package
+
+* Thu Jan 10 2019 Anton Novojilov <andyone@fun-box.ru> - 0.10.0-0
 - ek package updated to v10
 
 * Thu Nov 01 2018 Anton Novojilov <andyone@fun-box.ru> - 0.9.1-0
