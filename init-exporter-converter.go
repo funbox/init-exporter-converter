@@ -316,7 +316,7 @@ func printErrorAndExit(f string, a ...interface{}) {
 
 // showUsage print usage info to console
 func showUsage() {
-	info := usage.NewInfo("", "procfile...")
+	info := usage.NewInfo("", "procfile…")
 
 	info.AddOption(OPT_CONFIG, "Path to init-exporter config", "file")
 	info.AddOption(OPT_IN_PLACE, "Edit procfile in place")

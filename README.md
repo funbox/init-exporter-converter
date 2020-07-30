@@ -24,24 +24,17 @@ If you want to update `init-exporter-converter` to latest stable release, do:
 go get -u github.com/funbox/init-exporter-converter
 ```
 
-#### From ESSENTIAL KAOS Public repo for RHEL6/CentOS6
+#### From [ESSENTIAL KAOS Public Repository](https://yum.kaos.st)
 
 ```
-[sudo] yum install -y https://yum.kaos.st/kaos-repo-latest.el6.noarch.rpm
-[sudo] yum install init-exporter-converter
-```
-
-#### From ESSENTIAL KAOS Public repo for RHEL7/CentOS7
-
-```
-[sudo] yum install -y https://yum.kaos.st/kaos-repo-latest.el7.noarch.rpm
-[sudo] yum install init-exporter-converter
+sudo yum install -y https://yum.kaos.st/get/$(uname -r).rpm
+sudo yum install init-exporter-converter
 ```
 
 ### Usage
 
 ```
-Usage: init-exporter-converter {options} procfile...
+Usage: init-exporter-converter {options} procfile…
 
 Options
 
