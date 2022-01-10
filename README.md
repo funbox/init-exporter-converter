@@ -50,8 +50,8 @@ Examples
 
 ### Build status
 
-| Repository | Status |
-|------------|--------|
+| Branch | Status |
+|--------|--------|
 | Stable | [![CI](https://github.com/funbox/init-exporter-converter/actions/workflows/ci.yml/badge.svg)](https://github.com/funbox/init-exporter-converter/actions/workflows/ci.yml) |
 | Unstable | [![CI](https://github.com/funbox/init-exporter-converter/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/funbox/init-exporter-converter/actions/workflows/ci.yml) |
 
