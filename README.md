@@ -1,4 +1,4 @@
-## `init-exporter-converter` [![Build Status](https://travis-ci.org/funbox/init-exporter-converter.svg?branch=master)](https://travis-ci.org/funbox/init-exporter-converter) [![Go Report Card](https://goreportcard.com/badge/github.com/funbox/init-exporter-converter)](https://goreportcard.com/report/github.com/funbox/init-exporter-converter) [![License](https://gh.kaos.io/mit.svg)](LICENSE)
+## `init-exporter-converter` [![CI](https://github.com/funbox/init-exporter-converter/actions/workflows/ci.yml/badge.svg)](https://github.com/funbox/init-exporter-converter/actions/workflows/ci.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/funbox/init-exporter-converter)](https://goreportcard.com/report/github.com/funbox/init-exporter-converter) [![License](https://gh.kaos.st/mit.svg)](LICENSE)
 
 Utility for converting [`init-exporter`](https://github.com/funbox/init-exporter) procfiles from v1 to v2 format.
 
@@ -6,13 +6,7 @@ Utility for converting [`init-exporter`](https://github.com/funbox/init-exporter
 
 #### From sources
 
-Before the initial install allows git to use redirects for [pkg.re](https://github.com/essentialkaos/pkgre) service (reason why you should do this described [here](https://github.com/essentialkaos/pkgre#git-support)):
-
-```
-git config --global http.https://pkg.re.followRedirects true
-```
-
-To build the `init-exporter-converter` from scratch, make sure you have a working Go 1.8+ workspace ([instructions](https://golang.org/doc/install)), then:
+To build the `init-exporter-converter` from scratch, make sure you have a working Go 1.16+ workspace ([instructions](https://golang.org/doc/install)), then:
 
 ```
 go get github.com/funbox/init-exporter-converter
@@ -56,10 +50,10 @@ Examples
 
 ### Build status
 
-| Repository | Status |
-|------------|--------|
-| Stable | [![Build Status](https://travis-ci.org/funbox/init-exporter-converter.svg?branch=master)](https://travis-ci.org/funbox/init-exporter-converter) |
-| Unstable | [![Build Status](https://travis-ci.org/funbox/init-exporter-converter.svg?branch=develop)](https://travis-ci.org/funbox/init-exporter-converter) |
+| Branch | Status |
+|--------|--------|
+| Stable | [![CI](https://github.com/funbox/init-exporter-converter/actions/workflows/ci.yml/badge.svg)](https://github.com/funbox/init-exporter-converter/actions/workflows/ci.yml) |
+| Unstable | [![CI](https://github.com/funbox/init-exporter-converter/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/funbox/init-exporter-converter/actions/workflows/ci.yml) |
 
 ### License
 

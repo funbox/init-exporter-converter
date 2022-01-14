@@ -2,7 +2,7 @@ package main
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 //                                                                                    //
-//                       Copyright (c) 2006-2019 FB GROUP LLC                         //
+//                           Copyright (c) 2006-2021 FUNBOX                           //
 //                                                                                    //
 // ////////////////////////////////////////////////////////////////////////////////// //
 
@@ -11,8 +11,11 @@ import (
 	"io/ioutil"
 	"os"
 	"runtime"
+	"strings"
 
+	"pkg.re/essentialkaos/ek.v12/env"
 	"pkg.re/essentialkaos/ek.v12/fmtc"
+	"pkg.re/essentialkaos/ek.v12/fsutil"
 	"pkg.re/essentialkaos/ek.v12/knf"
 	"pkg.re/essentialkaos/ek.v12/options"
 	"pkg.re/essentialkaos/ek.v12/usage"
@@ -28,7 +31,7 @@ import (
 // App props
 const (
 	APP  = "init-exporter-converter"
-	VER  = "0.11.0"
+	VER  = "0.11.1"
 	DESC = "Utility for converting procfiles from v1 to v2 format"
 )
 
@@ -36,11 +39,11 @@ const (
 
 // Supported arguments
 const (
-	OPT_CONFIG    = "c:config"
-	OPT_IN_PLACE  = "i:in-place"
-	OPT_NO_COLORS = "nc:no-colors"
-	OPT_HELP      = "h:help"
-	OPT_VERSION   = "v:version"
+	OPT_CONFIG   = "c:config"
+	OPT_IN_PLACE = "i:in-place"
+	OPT_NO_COLOR = "nc:no-color"
+	OPT_HELP     = "h:help"
+	OPT_VERSION  = "v:version"
 )
 
 // Config properies
@@ -71,12 +74,15 @@ type procData struct {
 // ////////////////////////////////////////////////////////////////////////////////// //
 
 var optMap = options.Map{
-	OPT_CONFIG:    {},
-	OPT_IN_PLACE:  {Type: options.BOOL},
-	OPT_NO_COLORS: {Type: options.BOOL},
-	OPT_HELP:      {Type: options.BOOL},
-	OPT_VERSION:   {Type: options.BOOL},
+	OPT_CONFIG:   {},
+	OPT_IN_PLACE: {Type: options.BOOL},
+	OPT_NO_COLOR: {Type: options.BOOL},
+	OPT_HELP:     {Type: options.BOOL},
+	OPT_VERSION:  {Type: options.BOOL},
 }
+
+var colorTagApp string
+var colorTagVer string
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
@@ -95,9 +101,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if options.GetB(OPT_NO_COLORS) {
-		fmtc.DisableColors = true
-	}
+	configureUI()
 
 	if options.GetB(OPT_VERSION) {
 		showAbout()
@@ -112,7 +116,39 @@ func main() {
 	process(files)
 }
 
-// process start data processing
+// configureUI configures user interface
+func configureUI() {
+	envVars := env.Get()
+	term := envVars.GetS("TERM")
+
+	if term != "" {
+		switch {
+		case strings.Contains(term, "xterm"),
+			strings.Contains(term, "color"),
+			term == "screen":
+			fmtc.DisableColors = false
+		}
+	}
+
+	if !fsutil.IsCharacterDevice("/dev/stdout") && envVars.GetS("FAKETTY") == "" {
+		fmtc.DisableColors = true
+	}
+
+	if options.GetB(OPT_NO_COLOR) {
+		fmtc.DisableColors = true
+	}
+
+	switch {
+	case fmtc.IsTrueColorSupported():
+		colorTagApp, colorTagVer = "{#BCCF00}", "{#BCCF00}"
+	case fmtc.Is256ColorsSupported():
+		colorTagApp, colorTagVer = "{#148}", "{#148}"
+	default:
+		colorTagApp, colorTagVer = "{g}", "{g}"
+	}
+}
+
+// process starts data processing
 func process(files []string) {
 	var err error
 	var hasErrors bool
@@ -139,7 +175,7 @@ func process(files []string) {
 	}
 }
 
-// convert read procfile in v1 format and print v2 data or save it to file
+// convert reads procfile in v1 format and print v2 data or save it to file
 func convert(file string) error {
 	var hasCustomWorkingDirs bool
 
@@ -188,7 +224,7 @@ func convert(file string) error {
 	return writeData(file, yamlData)
 }
 
-// renderProcfile render procfile
+// renderProcfile renders procfile
 func renderProcfile(data *procData) string {
 	var result string
 
@@ -251,7 +287,7 @@ func renderProcfile(data *procData) string {
 	return result
 }
 
-// getWorkingDir return path to default working dir and flag
+// getWorkingDir returns path to default working dir and flag
 // if custom working dirs is used
 func getWorkingDir(app *procfile.Application) (string, bool) {
 	var dir = DEFAULT_WORKING_DIR
@@ -273,7 +309,7 @@ func getWorkingDir(app *procfile.Application) (string, bool) {
 	return dir, false
 }
 
-// validateApplication validate application and all services
+// validateApplication validates application and all services
 func validateApplication(app *procfile.Application) error {
 	errs := app.Validate()
 
@@ -284,14 +320,14 @@ func validateApplication(app *procfile.Application) error {
 	return errs[0]
 }
 
-// validateYaml validate rendered yaml
+// validateYaml validates rendered yaml
 func validateYaml(data string) error {
 	_, err := simpleyaml.NewYaml([]byte(data))
 
 	return err
 }
 
-// writeData write procfile data to file
+// writeData writes procfile data to file
 func writeData(file, data string) error {
 	return ioutil.WriteFile(file, []byte(data), 0644)
 }
@@ -314,13 +350,15 @@ func printErrorAndExit(f string, a ...interface{}) {
 
 // ////////////////////////////////////////////////////////////////////////////////// //
 
-// showUsage print usage info to console
+// showUsage prints usage info to console
 func showUsage() {
 	info := usage.NewInfo("", "procfile…")
 
+	info.AppNameColorTag = "{*}" + colorTagApp
+
 	info.AddOption(OPT_CONFIG, "Path to init-exporter config", "file")
 	info.AddOption(OPT_IN_PLACE, "Edit procfile in place")
-	info.AddOption(OPT_NO_COLORS, "Disable colors in output")
+	info.AddOption(OPT_NO_COLOR, "Disable colors in output")
 	info.AddOption(OPT_HELP, "Show this help message")
 	info.AddOption(OPT_VERSION, "Show version")
 
@@ -337,16 +375,22 @@ func showUsage() {
 	info.Render()
 }
 
-// showAbout print version info to console
+// showAbout prints version info to console
 func showAbout() {
 	about := &usage.About{
-		App:           APP,
-		Version:       VER,
-		Desc:          DESC,
-		Year:          2006,
-		Owner:         "FB Group",
-		License:       "MIT License",
-		UpdateChecker: usage.UpdateChecker{"funbox/init-exporter-converter", update.GitHubChecker},
+		App:     APP,
+		Version: VER,
+		Desc:    DESC,
+		Year:    2006,
+		Owner:   "FunBox",
+		License: "MIT License",
+		UpdateChecker: usage.UpdateChecker{
+			"funbox/init-exporter-converter",
+			update.GitHubChecker,
+		},
+
+		AppNameColorTag: "{*}" + colorTagApp,
+		VersionColorTag: colorTagVer,
 	}
 
 	about.Render()
