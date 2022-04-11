@@ -42,7 +42,7 @@
 
 Summary:         Utility for converting init-exporter procfiles from v1 to v2 format
 Name:            init-exporter-converter
-Version:         0.11.1
+Version:         0.11.2
 Release:         0%{?dist}
 Group:           Development/Tools
 License:         MIT
@@ -52,7 +52,7 @@ Source0:         %{name}-%{version}.tar.gz
 
 BuildRoot:       %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:   golang >= 1.16
+BuildRequires:   golang >= 1.17
 
 Provides:        %{name} = %{version}-%{release}
 
@@ -68,16 +68,14 @@ Utility for exporting services described by Procfile to init system.
 
 %build
 export GOPATH=$(pwd)
-
 pushd src/github.com/funbox/%{name}
-  %{__make} %{?_smp_mflags} all
+  go build -mod vendor %{name}.go
 popd
 
 %install
 rm -rf %{buildroot}
 
 install -dm 755 %{buildroot}%{_bindir}
-
 install -pm 755 src/github.com/funbox/%{name}/%{name} \
                 %{buildroot}%{_bindir}/
 
@@ -93,6 +91,11 @@ rm -rf %{buildroot}
 ################################################################################
 
 %changelog
+* Fri Apr 01 2022 Anton Novojilov <andyone@fun-box.ru> - 0.11.2-0
+- Removed pkg.re usage
+- Added module info
+- Added Dependabot configuration
+
 * Mon Jan 10 2022 Anton Novojilov <andyone@fun-box.ru> - 0.11.1-0
 - Minor UI improvements
 
