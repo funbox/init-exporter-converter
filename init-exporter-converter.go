@@ -13,15 +13,15 @@ import (
 	"runtime"
 	"strings"
 
-	"pkg.re/essentialkaos/ek.v12/env"
-	"pkg.re/essentialkaos/ek.v12/fmtc"
-	"pkg.re/essentialkaos/ek.v12/fsutil"
-	"pkg.re/essentialkaos/ek.v12/knf"
-	"pkg.re/essentialkaos/ek.v12/options"
-	"pkg.re/essentialkaos/ek.v12/usage"
-	"pkg.re/essentialkaos/ek.v12/usage/update"
+	"github.com/essentialkaos/ek/v12/env"
+	"github.com/essentialkaos/ek/v12/fmtc"
+	"github.com/essentialkaos/ek/v12/fsutil"
+	"github.com/essentialkaos/ek/v12/knf"
+	"github.com/essentialkaos/ek/v12/options"
+	"github.com/essentialkaos/ek/v12/usage"
+	"github.com/essentialkaos/ek/v12/usage/update"
 
-	"pkg.re/essentialkaos/go-simpleyaml.v2"
+	"github.com/essentialkaos/go-simpleyaml/v2"
 
 	"github.com/funbox/init-exporter/procfile"
 )
@@ -31,7 +31,7 @@ import (
 // App props
 const (
 	APP  = "init-exporter-converter"
-	VER  = "0.11.1"
+	VER  = "0.11.2"
 	DESC = "Utility for converting procfiles from v1 to v2 format"
 )
 
