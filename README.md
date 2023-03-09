@@ -6,22 +6,16 @@ Utility for converting [`init-exporter`](https://github.com/funbox/init-exporter
 
 #### From sources
 
-To build the `init-exporter-converter` from scratch, make sure you have a working Go 1.16+ workspace ([instructions](https://golang.org/doc/install)), then:
+To build the `init-exporter-converter` from scratch, make sure you have a working Go 1.18+ workspace ([instructions](https://golang.org/doc/install)), then:
 
 ```
-go get github.com/funbox/init-exporter-converter
-```
-
-If you want to update `init-exporter-converter` to latest stable release, do:
-
-```
-go get -u github.com/funbox/init-exporter-converter
+go install github.com/funbox/init-exporter-converter@latest
 ```
 
 #### From [ESSENTIAL KAOS Public Repository](https://yum.kaos.st)
 
 ```
-sudo yum install -y https://yum.kaos.st/get/$(uname -r).rpm
+sudo yum install -y https://yum.kaos.st/kaos-repo-latest.el$(grep 'CPE_NAME' /etc/os-release | tr -d '"' | cut -d':' -f5).noarch.rpm
 sudo yum install init-exporter-converter
 ```
 
