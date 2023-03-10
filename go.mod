@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/essentialkaos/ek/v12 v12.62.0
 	github.com/essentialkaos/go-simpleyaml/v2 v2.1.4
-	github.com/funbox/init-exporter v0.24.1
+	github.com/funbox/init-exporter v0.25.0
 )
 
 require (
