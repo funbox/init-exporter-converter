@@ -1,60 +1,24 @@
 ################################################################################
 
-# rpmbuilder:relative-pack true
+%define debug_package  %{nil}
 
 ################################################################################
 
-%define _posixroot        /
-%define _root             /root
-%define _bin              /bin
-%define _sbin             /sbin
-%define _srv              /srv
-%define _home             /home
-%define _lib32            %{_posixroot}lib
-%define _lib64            %{_posixroot}lib64
-%define _libdir32         %{_prefix}%{_lib32}
-%define _libdir64         %{_prefix}%{_lib64}
-%define _logdir           %{_localstatedir}/log
-%define _rundir           %{_localstatedir}/run
-%define _lockdir          %{_localstatedir}/lock/subsys
-%define _cachedir         %{_localstatedir}/cache
-%define _spooldir         %{_localstatedir}/spool
-%define _crondir          %{_sysconfdir}/cron.d
-%define _loc_prefix       %{_prefix}/local
-%define _loc_exec_prefix  %{_loc_prefix}
-%define _loc_bindir       %{_loc_exec_prefix}/bin
-%define _loc_libdir       %{_loc_exec_prefix}/%{_lib}
-%define _loc_libdir32     %{_loc_exec_prefix}/%{_lib32}
-%define _loc_libdir64     %{_loc_exec_prefix}/%{_lib64}
-%define _loc_libexecdir   %{_loc_exec_prefix}/libexec
-%define _loc_sbindir      %{_loc_exec_prefix}/sbin
-%define _loc_bindir       %{_loc_exec_prefix}/bin
-%define _loc_datarootdir  %{_loc_prefix}/share
-%define _loc_includedir   %{_loc_prefix}/include
-%define _rpmstatedir      %{_sharedstatedir}/rpm-state
-%define _pkgconfigdir     %{_libdir}/pkgconfig
+Summary:        Utility for converting init-exporter procfiles from v1 to v2 format
+Name:           init-exporter-converter
+Version:        0.12.0
+Release:        0%{?dist}
+Group:          Development/Tools
+License:        MIT
+URL:            https://github.com/funbox/init-exporter-converter
 
-################################################################################
+Source0:        %{name}-%{version}.tar.gz
 
-%define  debug_package %{nil}
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-################################################################################
+BuildRequires:  golang >= 1.19
 
-Summary:         Utility for converting init-exporter procfiles from v1 to v2 format
-Name:            init-exporter-converter
-Version:         0.11.2
-Release:         0%{?dist}
-Group:           Development/Tools
-License:         MIT
-URL:             https://github.com/funbox/init-exporter-converter
-
-Source0:         %{name}-%{version}.tar.gz
-
-BuildRoot:       %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildRequires:   golang >= 1.17
-
-Provides:        %{name} = %{version}-%{release}
+Provides:       %{name} = %{version}-%{release}
 
 ################################################################################
 
@@ -67,17 +31,21 @@ Utility for exporting services described by Procfile to init system.
 %setup -q
 
 %build
-export GOPATH=$(pwd)
-pushd src/github.com/funbox/%{name}
-  go build -mod vendor %{name}.go
+if [[ ! -d "%{name}/vendor" ]] ; then
+  echo "This package requires vendored dependencies"
+  exit 1
+fi
+
+pushd %{name}
+  %{__make} %{?_smp_mflags} all
+  cp LICENSE ..
 popd
 
 %install
 rm -rf %{buildroot}
 
 install -dm 755 %{buildroot}%{_bindir}
-install -pm 755 src/github.com/funbox/%{name}/%{name} \
-                %{buildroot}%{_bindir}/
+install -pm 755 %{name}/%{name} %{buildroot}%{_bindir}/
 
 %clean
 rm -rf %{buildroot}
@@ -86,11 +54,17 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
+%doc LICENSE
 %{_bindir}/init-exporter-converter
 
 ################################################################################
 
 %changelog
+* Fri Mar 10 2023 Anton Novojilov <andyone@fun-box.ru> - 0.12.0-0
+- Added verbose version output
+- Dependencies update
+- Code refactoring
+
 * Fri Apr 01 2022 Anton Novojilov <andyone@fun-box.ru> - 0.11.2-0
 - Removed pkg.re usage
 - Added module info
