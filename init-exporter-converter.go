@@ -52,7 +52,7 @@ const (
 	OPT_GENERATE_MAN = "generate-man"
 )
 
-// Config properies
+// Config properties
 const (
 	MAIN_PREFIX               = "main:prefix"
 	PATHS_WORKING_DIR         = "paths:working-dir"
@@ -362,7 +362,7 @@ func printWarn(f string, a ...interface{}) {
 	fmtc.Fprintf(os.Stderr, "{y}"+f+"{!}\n", a...)
 }
 
-// printErrorAndExit print error mesage and exit with exit code 1
+// printErrorAndExit print error message and exit with exit code 1
 func printErrorAndExit(f string, a ...interface{}) {
 	printError(f, a...)
 	os.Exit(1)
