@@ -8,15 +8,13 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"runtime"
-	"strings"
 
 	"github.com/essentialkaos/ek/v12/fmtc"
-	"github.com/essentialkaos/ek/v12/fsutil"
 	"github.com/essentialkaos/ek/v12/knf"
 	"github.com/essentialkaos/ek/v12/options"
+	"github.com/essentialkaos/ek/v12/terminal/tty"
 	"github.com/essentialkaos/ek/v12/usage"
 	"github.com/essentialkaos/ek/v12/usage/completion/bash"
 	"github.com/essentialkaos/ek/v12/usage/completion/fish"
@@ -34,7 +32,7 @@ import (
 // App props
 const (
 	APP  = "init-exporter-converter"
-	VER  = "0.12.0"
+	VER  = "0.12.1"
 	DESC = "Utility for converting procfiles from v1 to v2 format"
 )
 
@@ -52,7 +50,7 @@ const (
 	OPT_GENERATE_MAN = "generate-man"
 )
 
-// Config properies
+// Config properties
 const (
 	MAIN_PREFIX               = "main:prefix"
 	PATHS_WORKING_DIR         = "paths:working-dir"
@@ -130,24 +128,7 @@ func main() {
 
 // preConfigureUI preconfigures UI based on information about user terminal
 func preConfigureUI() {
-	term := os.Getenv("TERM")
-
-	fmtc.DisableColors = true
-
-	if term != "" {
-		switch {
-		case strings.Contains(term, "xterm"),
-			strings.Contains(term, "color"),
-			term == "screen":
-			fmtc.DisableColors = false
-		}
-	}
-
-	if !fsutil.IsCharacterDevice("/dev/stdout") && os.Getenv("FAKETTY") == "" {
-		fmtc.DisableColors = true
-	}
-
-	if os.Getenv("NO_COLOR") != "" {
+	if !tty.IsTTY() {
 		fmtc.DisableColors = true
 	}
 }
@@ -237,7 +218,7 @@ func convert(file string) error {
 	}
 
 	if !options.GetB(OPT_IN_PLACE) {
-		fmt.Printf(yamlData)
+		fmt.Print(yamlData)
 		return nil
 	}
 
@@ -349,7 +330,7 @@ func validateYaml(data string) error {
 
 // writeData writes procfile data to file
 func writeData(file, data string) error {
-	return ioutil.WriteFile(file, []byte(data), 0644)
+	return os.WriteFile(file, []byte(data), 0644)
 }
 
 // printError prints error message to console
@@ -357,12 +338,7 @@ func printError(f string, a ...interface{}) {
 	fmtc.Fprintf(os.Stderr, "{r}"+f+"{!}\n", a...)
 }
 
-// printError prints warning message to console
-func printWarn(f string, a ...interface{}) {
-	fmtc.Fprintf(os.Stderr, "{y}"+f+"{!}\n", a...)
-}
-
-// printErrorAndExit print error mesage and exit with exit code 1
+// printErrorAndExit print error message and exit with exit code 1
 func printErrorAndExit(f string, a ...interface{}) {
 	printError(f, a...)
 	os.Exit(1)
@@ -376,11 +352,11 @@ func printCompletion() int {
 
 	switch options.GetS(OPT_COMPLETION) {
 	case "bash":
-		fmt.Printf(bash.Generate(info, "init-exporter-converter"))
+		fmt.Print(bash.Generate(info, "init-exporter-converter"))
 	case "fish":
-		fmt.Printf(fish.Generate(info, "init-exporter-converter"))
+		fmt.Print(fish.Generate(info, "init-exporter-converter"))
 	case "zsh":
-		fmt.Printf(zsh.Generate(info, optMap, "init-exporter-converter"))
+		fmt.Print(zsh.Generate(info, optMap, "init-exporter-converter"))
 	default:
 		return 1
 	}
@@ -390,12 +366,7 @@ func printCompletion() int {
 
 // printMan prints man page
 func printMan() {
-	fmt.Println(
-		man.Generate(
-			genUsage(),
-			genAbout(""),
-		),
-	)
+	fmt.Println(man.Generate(genUsage(), genAbout("")))
 }
 
 // genUsage generates usage info
@@ -426,16 +397,13 @@ func genUsage() *usage.Info {
 // genAbout generates info about version
 func genAbout(gitRev string) *usage.About {
 	about := &usage.About{
-		App:     APP,
-		Version: VER,
-		Desc:    DESC,
-		Year:    2006,
-		Owner:   "FunBox",
-		License: "MIT License",
-		UpdateChecker: usage.UpdateChecker{
-			"funbox/init-exporter-converter",
-			update.GitHubChecker,
-		},
+		App:           APP,
+		Version:       VER,
+		Desc:          DESC,
+		Year:          2006,
+		Owner:         "FunBox",
+		License:       "MIT License",
+		UpdateChecker: usage.UpdateChecker{"funbox/init-exporter-converter", update.GitHubChecker},
 
 		AppNameColorTag: "{*}" + colorTagApp,
 		VersionColorTag: colorTagVer,
