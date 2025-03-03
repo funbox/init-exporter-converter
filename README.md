@@ -6,7 +6,7 @@ Utility for converting [`init-exporter`](https://github.com/funbox/init-exporter
 
 #### From sources
 
-To build the `init-exporter-converter` from scratch, make sure you have a working Go 1.18+ workspace ([instructions](https://golang.org/doc/install)), then:
+To build the `init-exporter-converter` from scratch, make sure you have a working Go 1.23+ workspace ([instructions](https://golang.org/doc/install)), then:
 
 ```
 go install github.com/funbox/init-exporter-converter@latest
@@ -15,32 +15,13 @@ go install github.com/funbox/init-exporter-converter@latest
 #### From [ESSENTIAL KAOS Public Repository](https://yum.kaos.st)
 
 ```
-sudo yum install -y https://yum.kaos.st/kaos-repo-latest.el$(grep 'CPE_NAME' /etc/os-release | tr -d '"' | cut -d':' -f5).noarch.rpm
+sudo yum install -y https://pkgs.kaos.st/kaos-repo-latest.el$(grep 'CPE_NAME' /etc/os-release | tr -d '"' | cut -d':' -f5).noarch.rpm
 sudo yum install init-exporter-converter
 ```
 
 ### Usage
 
-```
-Usage: init-exporter-converter {options} procfile…
-
-Options
-
-  --config, -c file    Path to init-exporter config
-  --in-place, -i       Edit procfile in place
-  --no-colors, -nc     Disable colors in output
-  --help, -h           Show this help message
-  --version, -v        Show version
-
-Examples
-
-  init-exporter-converter -i config/Procfile.production
-  Convert Procfile.production to version 2 in-place
-
-  init-exporter-converter -c /etc/init-exporter.conf Procfile.*
-  Convert all procfiles to version 2 with defaults from init-exporter config and print result to console
-
-```
+<img src=".github/images/usage.svg" />
 
 ### Build status
 
@@ -53,4 +34,4 @@ Examples
 
 [MIT](LICENSE)
 
-[![Sponsored by FunBox](https://funbox.ru/badges/sponsored_by_funbox_grayscale.svg)](https://funbox.ru)
+[![Sponsored by FunBox](.github/images/sponsored.svg)](https://funbox.ru)
