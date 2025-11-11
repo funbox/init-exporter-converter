@@ -6,8 +6,8 @@ github.com/essentialkaos/go-simpleyaml/v2 v2.2.0 h1:MtTJMjRYeba3AoSald0oVF6/aiSh
 github.com/essentialkaos/go-simpleyaml/v2 v2.2.0/go.mod h1:DggbDjR+uPz/En63o6HvoycYRZw+mSywrXc5ySvk8MU=
 github.com/essentialkaos/yaml/v2 v2.4.1 h1:smhmufQ6t+QYu1k3/rUPQ35qf3ymWoRUaQEOiBuTrIg=
 github.com/essentialkaos/yaml/v2 v2.4.1/go.mod h1:LgnGU0KlVWLyTExdsrWpdJEldaRpYN+r/Pcqh8NWSz8=
-github.com/funbox/init-exporter v0.26.0 h1:inFj7I4mD3FSwXMwqEBAa5qVR4AtYzDni1TaSbmNr5M=
-github.com/funbox/init-exporter v0.26.0/go.mod h1:v4ihdCA2hA4LSK+teHJoF4mUEpD5hKXfwDimDtnbjv0=
+github.com/funbox/init-exporter v0.27.0 h1:H6P/aNcYoiqVVZUpa0weRaqD1HLBnshE1pEDPVmxMBA=
+github.com/funbox/init-exporter v0.27.0/go.mod h1:xAjJBvIRebJYpnEif1H653U2riwvRII4EINhJUHqegs=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=
 github.com/kr/pretty v0.3.1/go.mod h1:hoEshYVHaxMs3cyo3Yncou5ZscifuDolrwPKZanG3xk=
 github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
